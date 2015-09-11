@@ -1,12 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class MapGeneratorBehaviour : MonoBehaviour {
+public abstract class GroundGeneratorBehaviour : MonoBehaviour {
 
     public GameObject prefab;
+    protected Map map;
+
+    public delegate void CreatedBlockHandler(Map map, MapElement block);
+    public event CreatedBlockHandler CreatedBlock;
+
     void Start()
     {
 
+    }
+
+    void Awake()
+    {
+        map = GetComponent<Map>();
+        if (map != null && enabled)
+            GetComponent<Map>().CreatedEmptyMap += Fill;
     }
 
     protected Vector3 PrefabMeshSize()
@@ -19,7 +31,7 @@ public abstract class MapGeneratorBehaviour : MonoBehaviour {
         return groundSize;
     }
 
-    protected GameObject CreateObject(int x, int y, int z, Vector3 size)
+    protected MapElement CreateObject(int x, int y, int z, Vector3 size)
     {
         Vector3 prefabMeshSize = PrefabMeshSize();
 
@@ -29,15 +41,12 @@ public abstract class MapGeneratorBehaviour : MonoBehaviour {
         mapElement.Coordinates = new Vector3(x, y, z);
         mapElementGameObject.transform.parent = transform;
 
-        MapBlockDiversityBehaviour behaviour = GetComponent<MapBlockDiversityBehaviour>();
-        if (behaviour != null && behaviour.enabled)
-        {
-            behaviour.CustomizeBlock(mapElement, size);
-        }
+        if (CreatedBlock != null)
+            CreatedBlock(map, mapElement);
 
-        return mapElementGameObject;
+        return mapElement;
     }
 
-    public abstract void Fill(GameObject[, ,] objects, Vector3 size);
+    public abstract void Fill();
 
 }

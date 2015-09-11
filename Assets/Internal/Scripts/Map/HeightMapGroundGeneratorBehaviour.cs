@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class HeightMapGeneratorBehaviour : MapGeneratorBehaviour {
+public class HeightMapGroundGeneratorBehaviour : GroundGeneratorBehaviour {
 
     public Texture2D Texture;
 
-    public override void Fill(GameObject[, ,] objects, Vector3 size)
+    public override void Fill()
     {
+        MapElement[, ,] objects = map.Elements;
+        Vector3 size = map.Size;
+
         int mapWidth = (int)size.x;
         int mapHeight = (int)size.z;
         float maxHeight = 0;

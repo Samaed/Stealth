@@ -7,6 +7,15 @@ public class MapBlockDiversityBehaviour : MonoBehaviour
 
     public BlockDistribution[] distributions;
 
+    void Awake()
+    {
+        GroundGeneratorBehaviour[] behaviours = GetComponents<GroundGeneratorBehaviour>();
+
+        if (enabled)
+            foreach (GroundGeneratorBehaviour behaviour in behaviours)
+                behaviour.CreatedBlock += CustomizeBlock;
+    }
+
     void Start()
     {
 
@@ -19,7 +28,7 @@ public class MapBlockDiversityBehaviour : MonoBehaviour
         float totalProbability = 0;
 
         for (int ind = 0; ind < distributionCount; ind++) {
-            probabilities[ind] = distributions[ind].curve.Evaluate(value);
+            probabilities[ind] = distributions[ind].Curve.Evaluate(value);
             totalProbability += probabilities[ind];
         }
 
@@ -41,15 +50,15 @@ public class MapBlockDiversityBehaviour : MonoBehaviour
         return (index == -1) ? null : distributions[index];
     }
 
-    public void CustomizeBlock(MapElement block, Vector3 mapSize)
+    public void CustomizeBlock(Map map, MapElement block)
     {
         MapBlockDiversityBehaviour blockDiversity = GetComponent<MapBlockDiversityBehaviour>();
         if (blockDiversity != null)
         {
-            BlockDistribution dist = blockDiversity.GetBlock(block.Coordinates.y / (int)mapSize.y);
+            BlockDistribution dist = blockDiversity.GetBlock(block.Coordinates.y / (int)map.Size.y);
             MeshRenderer renderer = block.GetComponent<MeshRenderer>();
-            if (block != null && renderer != null)
-                renderer.material = dist.material;
+            if (block != null && renderer != null && dist != null)
+                renderer.material = dist.Material;
         }
     }
 }

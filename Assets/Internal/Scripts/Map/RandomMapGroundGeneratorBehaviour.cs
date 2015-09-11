@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RandomMapGeneratorBehaviour : MapGeneratorBehaviour {
+public class RandomMapGroundGeneratorBehaviour : GroundGeneratorBehaviour {
 
-    public override void Fill(GameObject[,,] objects, Vector3 size) {
+    public override void Fill() {
+
+        MapElement[, ,] objects = map.Elements;
+        Vector3 size = map.Size;
+
         int x = (int)size.x;
         int y = (int)size.y;
         int z = (int)size.z;

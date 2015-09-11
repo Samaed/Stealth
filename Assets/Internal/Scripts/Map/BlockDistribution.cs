@@ -4,7 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class BlockDistribution {
 
-    public Material material;
-    public AnimationCurve curve;
+    public Material Material;
+    public AnimationCurve Curve;
 
 }

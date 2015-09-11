@@ -5,39 +5,18 @@ using System;
 
 public class Map : MonoBehaviour
 {
+    public delegate void CreatedEmptyMapHandler();
+    public event CreatedEmptyMapHandler CreatedEmptyMap;
 
-    private GameObject[, ,] Elements;
+    public MapElement[, ,] Elements;
     public Vector3 Size;
 
     void Start()
     {
-        Init();
-    }
+        Elements = new MapElement[(int)Size.x, (int)Size.y, (int)Size.z];
 
-    public void Init()
-    {
-        Elements = new GameObject[(int)Size.x, (int)Size.y, (int)Size.z];
-        ApplyGeneratorBehaviour();
-
-    }
-
-    private void ApplyGeneratorBehaviour()
-    {
-        MapGeneratorBehaviour[] behaviours;
-
-        behaviours = GetComponents<MapGeneratorBehaviour>();
-
-        int i = 0;
-        bool generated = false;
-        while (!generated && i < behaviours.Length)
-        {
-            if (behaviours[i].enabled)
-            {
-                behaviours[i].Fill(Elements, Size);
-                generated = true;
-            }
-            i++;
-        }
+        if (CreatedEmptyMap != null)
+            CreatedEmptyMap();
     }
 
     void CheckIndexes(int x, int y, int z)
@@ -50,13 +29,13 @@ public class Map : MonoBehaviour
             throw new IndexOutOfRangeException(String.Format("z ({0}) should be between 0 and {1}", z, (int)Size.z));
     }
 
-    public GameObject GetElementAt(int x, int y, int z)
+    public MapElement GetElementAt(int x, int y, int z)
     {
         CheckIndexes(x, y, z);
         return Elements[x, y, z];
     }
 
-    public GameObject this[int x, int y, int z]
+    public MapElement this[int x, int y, int z]
     {
         get
         {
