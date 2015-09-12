@@ -1,27 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RandomMapGroundGeneratorBehaviour : GroundGeneratorBehaviour {
+public class RandomMapGroundGeneratorBehaviour : GroundGeneratorBehaviour
+{
 
-    public override void Fill() {
-
-        MapElement[, ,] objects = map.Elements;
+    public override void Fill()
+    {
         Vector3 size = map.Size;
 
-        int x = (int)size.x;
-        int y = (int)size.y;
-        int z = (int)size.z;
+        int mapWidth = (int)size.x;
+        int mapDepth = (int)size.y;
+        int mapHeight = (int)size.z;
 
         int height;
 
-        for (int i = 0; i < x; i++)
+        for (int x = 0; x < mapWidth; x++)
         {
-            for (int k = 0; k < z; k++)
+            for (int z = 0; z < mapHeight; z++)
             {
-                height = UnityEngine.Random.Range(0, y);
-                for (int j = 0; j <= height; j++)
+                height = UnityEngine.Random.Range(0, mapDepth);
+                for (int y = 0; y <= height; y++)
                 {
-                    objects[i,j,k] = CreateObject(i, j, k, size);
+                    map.SetElementAt(x, y, z, CreateObject(x, y, z));
                 }
             }
         }

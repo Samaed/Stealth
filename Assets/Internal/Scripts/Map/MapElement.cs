@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// TODO implement serialization exploiting cross-component serialization
 public class MapElement : MonoBehaviour {
+
+    // TODO maybe the element will be deleted too fast
+    public delegate void BlockDestroyedHandler(MapElement element);
+    public event BlockDestroyedHandler BlockDestroyed;
 
     public enum Directions
     {
@@ -15,5 +18,11 @@ public class MapElement : MonoBehaviour {
     public Vector3 Coordinates { set; get; }
 
     public Directions Direction { set; get; }
+
+    void OnDestroy()
+    {
+        if (BlockDestroyed != null)
+            BlockDestroyed(this);
+    }
 
 }

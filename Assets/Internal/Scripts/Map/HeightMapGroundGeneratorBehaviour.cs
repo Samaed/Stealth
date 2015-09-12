@@ -7,7 +7,6 @@ public class HeightMapGroundGeneratorBehaviour : GroundGeneratorBehaviour {
 
     public override void Fill()
     {
-        MapElement[, ,] objects = map.Elements;
         Vector3 size = map.Size;
 
         int mapWidth = (int)size.x;
@@ -53,7 +52,7 @@ public class HeightMapGroundGeneratorBehaviour : GroundGeneratorBehaviour {
                 heightInt = (maxHeight == 0) ? 1 : 1 + (int)(heights[x,z] / maxHeight * ((int)size.y-1));
 
                 for (int y = 0; y < heightInt; y++) {
-                    objects[x, y, z] = CreateObject(x, y, z, size);
+                    map.SetElementAt(x,y,z, CreateObject(x, y, z));
                 }
             }
         }

@@ -9,6 +9,9 @@ public abstract class GroundGeneratorBehaviour : MonoBehaviour {
     public delegate void CreatedBlockHandler(Map map, MapElement block);
     public event CreatedBlockHandler CreatedBlock;
 
+    public delegate void CreatedGroundHandler(Map map);
+    public event CreatedGroundHandler CreatedGround;
+
     void Start()
     {
 
@@ -18,7 +21,7 @@ public abstract class GroundGeneratorBehaviour : MonoBehaviour {
     {
         map = GetComponent<Map>();
         if (map != null && enabled)
-            GetComponent<Map>().CreatedEmptyMap += Fill;
+            GetComponent<Map>().CreatedEmptyMap += GenerateGround;
     }
 
     protected Vector3 PrefabMeshSize()
@@ -31,7 +34,7 @@ public abstract class GroundGeneratorBehaviour : MonoBehaviour {
         return groundSize;
     }
 
-    protected MapElement CreateObject(int x, int y, int z, Vector3 size)
+    protected MapElement CreateObject(int x, int y, int z)
     {
         Vector3 prefabMeshSize = PrefabMeshSize();
 
@@ -45,6 +48,14 @@ public abstract class GroundGeneratorBehaviour : MonoBehaviour {
             CreatedBlock(map, mapElement);
 
         return mapElement;
+    }
+
+    private void GenerateGround()
+    {
+        Fill();
+
+        if (CreatedGround != null)
+            CreatedGround(map);
     }
 
     public abstract void Fill();
