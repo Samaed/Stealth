@@ -8,13 +8,13 @@ public class Map : MonoBehaviour
     public delegate void CreatedEmptyMapHandler();
     public event CreatedEmptyMapHandler CreatedEmptyMap;
 
-    private List<Vector3>[,] TopElements;
+    private int[,] DepthTopElements;
     private MapElement[,,] Elements;
     public Vector3 Size;
 
     void Start()
     {
-        TopElements = new List<Vector3>[(int)Size.x,(int)Size.z];
+        DepthTopElements = new int[(int)Size.x, (int)Size.z];
         Elements = new MapElement[(int)Size.x, (int)Size.y, (int)Size.z];
 
         if (CreatedEmptyMap != null)
@@ -52,9 +52,9 @@ public class Map : MonoBehaviour
         return Elements[x, y, z];
     }
 
-    public List<Vector3> GetTopElementsCoordinatesAt(int x, int z)
+    public int GetTopDepthAt(int x, int z)
     {
-        return TopElements[x, z];
+        return DepthTopElements[x, z];
     }
 
     public MapElement this[Vector3 coordinates]
@@ -102,21 +102,14 @@ public class Map : MonoBehaviour
         {
             if (y != ((int)Size.y) - 1 && Elements[x, y + 1, z] == null)
             {
-                if (TopElements[x, z] == null)
-                    TopElements[x, z] = new List<Vector3>((int)Size.y / 2);
-
                 if (behind != null)
-                    TopElements[x, z].Remove(behind.Coordinates);
-
-                TopElements[x, z].Add(coordinates);
+                    DepthTopElements[x, z] = y;
             }
         }
         else
         {
             if (behind != null)
-                TopElements[x, z].Add(behind.Coordinates);
-
-            TopElements[x, z].Remove(coordinates);
+                DepthTopElements[x, z] = y-1;
         }
     }
 }

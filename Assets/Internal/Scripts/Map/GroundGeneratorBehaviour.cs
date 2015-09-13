@@ -24,19 +24,9 @@ public abstract class GroundGeneratorBehaviour : MonoBehaviour {
             GetComponent<Map>().CreatedEmptyMap += GenerateGround;
     }
 
-    protected Vector3 PrefabMeshSize()
-    {
-        Vector3 groundSize = prefab.GetComponent<MeshFilter>().sharedMesh.bounds.size;
-        Vector3 scale = prefab.transform.lossyScale;
-        groundSize.x *= scale.x;
-        groundSize.y *= scale.y;
-        groundSize.z *= scale.z;
-        return groundSize;
-    }
-
     protected MapElement CreateObject(int x, int y, int z)
     {
-        Vector3 prefabMeshSize = PrefabMeshSize();
+        Vector3 prefabMeshSize = Geometry.PrefabMeshSize(prefab);
 
         GameObject mapElementGameObject = (GameObject)Instantiate(prefab, new Vector3(prefabMeshSize.x * x, prefabMeshSize.y * y, prefabMeshSize.z * z), Quaternion.identity);
         mapElementGameObject.name = string.Format("{0},{1},{2}", x, y, z);
