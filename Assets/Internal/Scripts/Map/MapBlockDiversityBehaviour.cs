@@ -2,23 +2,40 @@
 using System.Collections;
 using System;
 
-public class MapBlockDiversityBehaviour : MonoBehaviour
+public class MapBlockDiversityBehaviour : MapGeneratorBehaviour
 {
+    [Serializable]
+    public class BlockDistribution
+    {
+        public Material Material;
+        public AnimationCurve Curve;
+    }
 
     public BlockDistribution[] distributions;
-
-    void Awake()
-    {
-        GroundGeneratorBehaviour[] behaviours = GetComponents<GroundGeneratorBehaviour>();
-
-        if (enabled)
-            foreach (GroundGeneratorBehaviour behaviour in behaviours)
-                behaviour.CreatedBlock += CustomizeBlock;
-    }
 
     void Start()
     {
 
+    }
+
+    protected override void Generate()
+    {
+        Vector3 size = map.Size;
+
+        int mapWidth = (int)size.x;
+        int mapDepth = (int)size.y;
+        int mapHeight = (int)size.z;
+
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapDepth; y++)
+            {
+                for (int z = 0; z < mapHeight; z++)
+                {
+                    CustomizeBlock(map[x,y,z]);
+                }
+            }
+        }
     }
 
     public BlockDistribution GetBlock(float value)
@@ -50,8 +67,10 @@ public class MapBlockDiversityBehaviour : MonoBehaviour
         return (index == -1) ? null : distributions[index];
     }
 
-    public void CustomizeBlock(Map map, MapElement block)
+    public void CustomizeBlock(MapElement block)
     {
+        if (block == null) return;
+
         MapBlockDiversityBehaviour blockDiversity = GetComponent<MapBlockDiversityBehaviour>();
         if (blockDiversity != null)
         {

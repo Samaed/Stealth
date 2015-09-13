@@ -5,7 +5,7 @@ public class HeightMapGroundGeneratorBehaviour : GroundGeneratorBehaviour {
 
     public Texture2D Texture;
 
-    public override void Fill()
+    protected override void Generate()
     {
         Vector3 size = map.Size;
 

@@ -1,22 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapOptimizer : MonoBehaviour {
-
-    void Awake()
-    {
-        GroundGeneratorBehaviour[] generators = GetComponents<GroundGeneratorBehaviour>();
-
-        if (enabled)
-            foreach (GroundGeneratorBehaviour generator in generators)
-                generator.CreatedGround += OptimizeGround;
-    }
+public class MapOptimizer : MapGeneratorBehaviour {
 
 	void Start () {
 	
 	}
 
-    public void OptimizeGround(Map map)
+    protected override void Generate()
     {
         Vector3 size = map.Size;
 

@@ -4,7 +4,7 @@ using System.Collections;
 public class RandomMapGroundGeneratorBehaviour : GroundGeneratorBehaviour
 {
 
-    public override void Fill()
+    protected override void Generate()
     {
         Vector3 size = map.Size;
 

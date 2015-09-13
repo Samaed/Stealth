@@ -5,20 +5,14 @@ using System;
 
 public class Map : MonoBehaviour
 {
-    public delegate void CreatedEmptyMapHandler();
-    public event CreatedEmptyMapHandler CreatedEmptyMap;
-
     private int[,] DepthTopElements;
     private MapElement[,,] Elements;
     public Vector3 Size;
 
-    void Start()
+    void Awake()
     {
         DepthTopElements = new int[(int)Size.x, (int)Size.z];
         Elements = new MapElement[(int)Size.x, (int)Size.y, (int)Size.z];
-
-        if (CreatedEmptyMap != null)
-            CreatedEmptyMap();
     }
 
     void CheckIndexes(int x, int y, int z)

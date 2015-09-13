@@ -1,27 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class GroundGeneratorBehaviour : MonoBehaviour {
+public abstract class GroundGeneratorBehaviour : MapGeneratorBehaviour {
 
     public GameObject prefab;
-    protected Map map;
-
-    public delegate void CreatedBlockHandler(Map map, MapElement block);
-    public event CreatedBlockHandler CreatedBlock;
-
-    public delegate void CreatedGroundHandler(Map map);
-    public event CreatedGroundHandler CreatedGround;
 
     void Start()
     {
 
-    }
-
-    void Awake()
-    {
-        map = GetComponent<Map>();
-        if (map != null && enabled)
-            GetComponent<Map>().CreatedEmptyMap += GenerateGround;
     }
 
     protected MapElement CreateObject(int x, int y, int z)
@@ -34,20 +20,7 @@ public abstract class GroundGeneratorBehaviour : MonoBehaviour {
         mapElement.Coordinates = new Vector3(x, y, z);
         mapElementGameObject.transform.parent = transform;
 
-        if (CreatedBlock != null)
-            CreatedBlock(map, mapElement);
-
         return mapElement;
     }
-
-    private void GenerateGround()
-    {
-        Fill();
-
-        if (CreatedGround != null)
-            CreatedGround(map);
-    }
-
-    public abstract void Fill();
 
 }

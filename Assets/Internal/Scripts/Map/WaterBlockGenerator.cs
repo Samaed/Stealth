@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WaterBlockGenerator : MonoBehaviour {
+public class WaterBlockGenerator : MapGeneratorBehaviour {
 
     public GameObject prefab;
 
@@ -11,25 +11,12 @@ public class WaterBlockGenerator : MonoBehaviour {
     [Range(0, 1)]
     public float WaterProbability;
 
-    private Map map;
-
-    void Awake()
-    {
-        GroundGeneratorBehaviour[] generators = GetComponents<GroundGeneratorBehaviour>();
-
-        if (enabled)
-            foreach (GroundGeneratorBehaviour generator in generators)
-                generator.CreatedGround += CreateWater;
-    }
-
 	void Start () {
 	
 	}
 
-    void CreateWater(Map map)
+    protected override void Generate()
     {
-        this.map = map;
-
         int mapWidth = (int)map.Size.x;
         int mapDepth = (int)map.Size.y;
         int mapHeight = (int)map.Size.z;
