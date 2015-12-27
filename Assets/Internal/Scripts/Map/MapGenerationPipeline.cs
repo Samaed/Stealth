@@ -41,7 +41,8 @@ public class MapGenerationPipeline : MonoBehaviour {
             if (Steps[i].Active && behaviours[i] != null)
                 foreach (var behaviour in behaviours[i])
                 {
-                    behaviour.Generation(map);
+                    if (behaviour.enabled)
+                        behaviour.Generation(map);
                 }
         }
     }

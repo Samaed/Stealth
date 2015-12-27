@@ -66,7 +66,7 @@ public class WaterBlockGenerator : MapGeneratorBehaviour {
         Vector3 prefabMeshSize = Geometry.PrefabMeshSize(prefab);
 
         GameObject mapElementGameObject = (GameObject)Instantiate(prefab, new Vector3(prefabMeshSize.x * x, prefabMeshSize.y * y, prefabMeshSize.z * z), Quaternion.identity);
-        mapElementGameObject.name = string.Format("{0},{1},{2}", x, y, z);
+        mapElementGameObject.name = string.Format(Utilities.MAPELEMENT_NAME_FORMAT, x, y, z);
         MapElement mapElement = mapElementGameObject.GetComponent<MapElement>();
         mapElement.Coordinates = new Vector3(x, y, z);
         mapElementGameObject.transform.parent = transform;

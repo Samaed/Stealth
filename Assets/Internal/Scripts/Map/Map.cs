@@ -30,8 +30,6 @@ public class Map : MonoBehaviour
         CheckIndexes(x, y, z);
         Elements[x, y, z] = element;
 
-        element.BlockDestroyed += OnElementDestroyed;
-
         UpdateTopElements(element.Coordinates, true);
     }
 

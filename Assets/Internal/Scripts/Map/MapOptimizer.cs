@@ -23,7 +23,7 @@ public class MapOptimizer : MapGeneratorBehaviour {
         {
             for (int z = 1; z < mapHeight-1; z++)
             {
-                for (int y = 0; y < mapDepth-1; y++)
+                for (int y = 1; y < mapDepth-1; y++)
                 {
                     element = map[x,y,z];
                     exists[x,y,z] = element != null;
